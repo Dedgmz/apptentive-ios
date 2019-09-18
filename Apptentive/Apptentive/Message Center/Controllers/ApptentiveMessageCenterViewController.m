@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, ATMessageCenterState) {
 
 	self.messageInputView.messageView.text = self.viewModel.draftMessage ?: @"";
 	self.messageInputView.messageView.textContainerInset = UIEdgeInsetsMake(TEXT_VIEW_VERTICAL_INSET, TEXT_VIEW_VERTICAL_INSET, TEXT_VIEW_VERTICAL_INSET, TEXT_VIEW_VERTICAL_INSET);
-	[self.messageInputView.clearButton setImage:[[ApptentiveUtilities imageNamed:@"at_close"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+	[self.messageInputView.clearButton setImage:[ApptentiveUtilities imageNamed:@"at_close"] forState:UIControlStateNormal];
 
 	self.messageInputView.messageView.accessibilityHint = [NSString stringWithFormat:@"%@. %@", self.viewModel.composerTitle, self.viewModel.composerPlaceholderText];
 	self.messageInputView.placeholderLabel.text = self.viewModel.composerPlaceholderText;
@@ -258,7 +258,10 @@ typedef NS_ENUM(NSInteger, ATMessageCenterState) {
 
 	self.messageInputView.titleLabel.text = self.viewModel.composerTitle;
 	self.neuMessageButtonItem.title = self.viewModel.composerTitle;
+	[self.neuMessageButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+
 	[self.messageInputView.sendButton setTitle:self.viewModel.composerSendButtonTitle forState:UIControlStateNormal];
+	[self.messageInputView.sendButton setTintColor:[UIColor blackColor]];
 
 	self.messageInputView.sendButton.accessibilityHint = ApptentiveLocalizedString(@"Sends the message.", @"Accessibility hint for 'send' button");
 
@@ -308,6 +311,9 @@ typedef NS_ENUM(NSInteger, ATMessageCenterState) {
 			self.composeButtonItem.enabled = NO;
 			self.neuMessageButtonItem.enabled = NO;
 		}
+
+		[self.profileView.saveButton setTintColor:[UIColor blackColor]];
+		[self.profileView.skipButton setTintColor:[UIColor lightGrayColor]];
     } else {
 		self.navigationItem.leftBarButtonItem = nil;
 	}
