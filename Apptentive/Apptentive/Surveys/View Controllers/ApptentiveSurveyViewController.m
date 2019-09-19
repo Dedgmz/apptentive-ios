@@ -55,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) CGFloat lineHeightOfQuestionFont;
 @property (assign, nonatomic) CGFloat toolbarInset;
 @property (assign, nonatomic) BOOL keyboardVisible;
+@property (readwrite, nonatomic) UIColor* backgroundColor;
+
 
 @end
 
@@ -74,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 	[self.collectionViewLayout registerClass:[ApptentiveSurveyQuestionBackgroundView class] forDecorationViewOfKind:@"QuestionBackground"];
 
 	self.title = self.viewModel.title;
-
+	self.backgroundColor = [[UIColor alloc] initWithRed:51 green:151 blue:237 alpha:1];
 	self.headerView.greetingLabel.text = self.viewModel.greeting;
 	[self.headerView.infoButton setImage:[ApptentiveUtilities imageNamed:@"at_info"] forState:UIControlStateNormal];
 	self.headerView.infoButton.accessibilityLabel = ApptentiveLocalizedString(@"About Apptentive", @"Accessibility label for 'show about' button");
@@ -100,7 +102,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 	self.footerBackgroundView.backgroundColor = [style colorForStyle:ApptentiveColorFooterBackground];
 	self.submitButton.titleLabel.font = [style fontForStyle:ApptentiveTextStyleSubmitButton];
-	self.submitButton.backgroundColor = [style colorForStyle:ApptentiveColorBackground];
+	self.submitButton.titleLabel.textColor = self.backgroundColor;
+	self.submitButton.backgroundColor = self.backgroundColor;
+	[self.submitButton.layer setBorderWidth:1];
+	[self.submitButton.layer setBorderColor:self.backgroundColor.CGColor];
+
 
 	self.missingRequiredItem.tintColor = [style colorForStyle:ApptentiveColorBackground];
 	self.missingRequiredItem.title = [self.viewModel missingRequiredItemText];
@@ -301,6 +307,7 @@ NS_ASSUME_NONNULL_BEGIN
 			}
 			cell.accessibilityTraits |= UIAccessibilityTraitButton;
 			cell.button.image = buttonImage;
+			[cell.button setTintColor:self.backgroundColor];
 			cell.button.highlightedImage = highlightedButtonImage;
 			[cell.button sizeToFit];
 
