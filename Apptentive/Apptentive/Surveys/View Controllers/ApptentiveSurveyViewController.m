@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) CGFloat lineHeightOfQuestionFont;
 @property (assign, nonatomic) CGFloat toolbarInset;
 @property (assign, nonatomic) BOOL keyboardVisible;
-@property (readwrite, nonatomic) UIColor* backgroundColor;
+@property (readwrite, nonatomic) UIColor* customBackgroundColor;
 
 
 @end
@@ -76,7 +76,12 @@ NS_ASSUME_NONNULL_BEGIN
 	[self.collectionViewLayout registerClass:[ApptentiveSurveyQuestionBackgroundView class] forDecorationViewOfKind:@"QuestionBackground"];
 
 	self.title = self.viewModel.title;
-	self.backgroundColor = [[UIColor alloc] initWithRed:51 green:151 blue:237 alpha:1];
+	self.customBackgroundColor = [UIColor
+								  colorWithRed:51.f / 255.f
+								  green:151.f / 255.f
+								  blue:237.f / 255.f
+								  alpha:1];
+
 	self.headerView.greetingLabel.text = self.viewModel.greeting;
 	[self.headerView.infoButton setImage:[ApptentiveUtilities imageNamed:@"at_info"] forState:UIControlStateNormal];
 	self.headerView.infoButton.accessibilityLabel = ApptentiveLocalizedString(@"About Apptentive", @"Accessibility label for 'show about' button");
@@ -102,10 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 	self.footerBackgroundView.backgroundColor = [style colorForStyle:ApptentiveColorFooterBackground];
 	self.submitButton.titleLabel.font = [style fontForStyle:ApptentiveTextStyleSubmitButton];
-	self.submitButton.titleLabel.textColor = self.backgroundColor;
-	self.submitButton.backgroundColor = self.backgroundColor;
-	[self.submitButton.layer setBorderWidth:1];
-	[self.submitButton.layer setBorderColor:self.backgroundColor.CGColor];
+	self.submitButton.tintColor = self.customBackgroundColor;
 
 
 	self.missingRequiredItem.tintColor = [style colorForStyle:ApptentiveColorBackground];
@@ -307,7 +309,7 @@ NS_ASSUME_NONNULL_BEGIN
 			}
 			cell.accessibilityTraits |= UIAccessibilityTraitButton;
 			cell.button.image = buttonImage;
-			[cell.button setTintColor:self.backgroundColor];
+			[cell.button setTintColor:self.customBackgroundColor];
 			cell.button.highlightedImage = highlightedButtonImage;
 			[cell.button sizeToFit];
 
